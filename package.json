@@ -1,7 +1,7 @@
 {
   "name": "funy",
   "version": "1.0.0",
-  "description": "Web based video and image syncronization.",
+  "description": "Web based video and image synchronization.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

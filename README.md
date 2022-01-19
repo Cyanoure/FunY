@@ -10,3 +10,5 @@ npm install
 ```
 npm start
 ```
+
+Download NodeJS: https://nodejs.org/

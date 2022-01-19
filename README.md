@@ -1,5 +1,5 @@
 # FunY
-Web based video and image syncronization.
+Web based video and image synchronization.
 
 ### Installation
 ```

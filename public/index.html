@@ -12,11 +12,13 @@
         <div id="clients"></div>
         <div id="source">Forráskód: <a href="https://github.com/Cyanoure/FunY" target="_blank">GitHub</a></div>
         <div class="scene"></div>
-        <!--<div id="controller">
-            <div id="funs">
-
-            </div>
-        </div>-->
+        <div id="connectMessage">
+            <div class="text">Csatlakozz a határtalan mókához!</div>
+            <!-- Erre az üzenetre azért van szükség, hogy a felhasználó interakcióba lépjen a weboldallal.
+                Ha nem volt legalább egy interakció a weboldal betöltése után,
+                javascripttel nem lehet elindítani a videó(ka)t. -->
+            <div class="btn" onclick="connectServer()">Csatlakozás</div>
+        </div>
         <script src="js/funy.js"></script>
     </body>
 </html>

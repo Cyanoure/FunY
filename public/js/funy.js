@@ -1,29 +1,34 @@
-//getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+var socket = null;
 
-var socket = new io();
+var connecting = false;
+function connectServer(){
+    if(connecting) return;
+    socket = new io();
+    socket.on("broadcast",(d)=>{
+        console.log("BC:",d);
+        if(typeof(d) != "string") return;
+        d = d.toLowerCase().trim();
+        if(d == "clear"){
+            clearScene();
+        }else if(d == "play"){
+            playVideo();
+        }else{
+            loadFun(d);
+        }
+    });
+    
+    socket.on("clients",n=>{
+        document.getElementById("clients").innerText = `Kapcsolódó kliensek: ${n}`;
+    });
 
-socket.on("broadcast",(d)=>{
-    console.log("BC:",d);
-    if(typeof(d) != "string") return;
-    d = d.toLowerCase().trim();
-    if(d == "clear"){
-        clearScene();
-    }else if(d == "play"){
-        playVideo();
-    }else{
-        loadFun(d);
-    }
-});
+    var btn = document.querySelector("#connectMessage .btn");
+    btn.innerHTML = "Csatlakozás folyamatban...";
+    btn.style.color = "#999";
 
-socket.on("clients",n=>{
-    document.getElementById("clients").innerText = `Kapcsolódó kliensek: ${n}`;
-})
-
-socket.on("connect",()=>{
-    //socket.emit("broadcast","kukac");
-});
-
-//<img class="fullscreenimage" src="img/gandalf.gif" alt="">
+    socket.on("connect",()=>{
+        document.getElementById("connectMessage").hidden = true;
+    });
+}
 
 var gimg = document.createElement("img");
 gimg.src = "img/gandalf.gif";
@@ -36,19 +41,18 @@ function openGandalf(){
 }
 
 document.addEventListener("keypress",e=>{
-    //console.log(e.code);
     switch(e.code){
         case "Backquote":
-            socket.emit("broadcast","clear");
+            if(socket) socket.emit("broadcast","clear");
             break;
         case "Enter":
-            socket.emit("broadcast","play");
+            if(socket) socket.emit("broadcast","play");
             break;
     }
     if(e.code.startsWith("Digit")){
         var n = parseInt(e.code[e.code.length-1]);
         console.log(n);
-        socket.emit("broadcast",Object.keys(funs)[n-1]);
+        if(socket) socket.emit("broadcast",Object.keys(funs)[n-1]);
     }
 });
 
